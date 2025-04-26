@@ -1,7 +1,7 @@
-# ✨🕺 CuteDancer v4.0 🕺✨
+# ✨🕺 CuteDancer v4.1 🕺✨
 
-### [Add to VRChat Creator Companion](https://theunifox.github.io/CuteDancer/)
-▶️ https://theunifox.github.io/CuteDancer/ ◀️
+### [Add to VRChat Creator Companion](https://theunifox.github.io/CuteDancerPlus/)
+▶️ https://theunifox.github.io/CuteDancerPlus/ ◀️
 
 ---
 
@@ -43,7 +43,7 @@ And finally follow the below Installation section.
 
 You have to use [VRChat Creator Companion](https://vcc.docs.vrchat.com/) for your Unity VRChat project.
 
-Add the listing from https://theunifox.github.io/CuteDancer/
+Add the listing from https://theunifox.github.io/CuteDancerPlus/
 
 Install CuteDancer package by clicking `Manage Project` next to the desired avatar project and then choose the newest version available next to the CuteDancer package.
 
