@@ -44,7 +44,7 @@ namespace VRF
             fxControllerBuilder.Build(settings);
             buildInfoBuilder.Build(settings);
 
-            FinalizeBuild(settings);
+            if (settings.useVRCFury) { FinalizeBuild(settings); }
 
             AssetDatabase.Refresh();
 

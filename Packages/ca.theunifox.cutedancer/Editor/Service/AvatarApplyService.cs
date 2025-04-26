@@ -48,18 +48,24 @@ public class AvatarApplyService
     public void AddToAvatar(bool isUpdate = false)
     {
         cutePrefab.HandleAdd();
-        cuteParams.HandleAdd();
-        cuteSubmenu.HandleAdd();
-        cuteLayers.HandleAdd(isUpdate);
+        if (!VRF.SettingsService.Instance.useVRCFury)
+        {
+            cuteParams.HandleAdd();
+            cuteSubmenu.HandleAdd();
+            cuteLayers.HandleAdd(isUpdate);
+        }
         log.LogInfo("AddToAvatar complete");
     }
 
     public void RemoveFromAvatar(bool isUpdate = false)
     {
         cutePrefab.HandleRemove();
-        cuteParams.HandleRemove();
-        cuteSubmenu.HandleRemove();
-        cuteLayers.HandleRemove(isUpdate);
+        if (!VRF.SettingsService.Instance.useVRCFury)
+        {
+            cuteParams.HandleRemove();
+            cuteSubmenu.HandleRemove();
+            cuteLayers.HandleRemove(isUpdate);
+        }
         log.LogInfo("RemoveFromAvatar complete");
     }
 
@@ -73,10 +79,17 @@ public class AvatarApplyService
     // TODO temporary validation, return true if installed, false if not
     public bool ValidateIsAdded()
     {
-        return cutePrefab.GetStatus() != ApplyStatus.ADD
+        if (!VRF.SettingsService.Instance.useVRCFury)
+        {
+            return cutePrefab.GetStatus() != ApplyStatus.ADD
             || cuteParams.GetStatus() != ApplyStatus.ADD
             || cuteSubmenu.GetStatus() != ApplyStatus.ADD
             || cuteLayers.GetStatus() != ApplyStatus.ADD;
+        }
+        else
+        {
+            return cutePrefab.GetStatus() != ApplyStatus.ADD;
+        }
     }
 
 }
