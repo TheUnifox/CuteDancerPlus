@@ -52,6 +52,8 @@ namespace VRF
             this.RegisterCallback<ChangeEvent<bool>>((changeEvent) => Validate());
             this.RegisterCallback<ChangeEvent<string>>((changeEvent) => Validate());
             this.Q("BuildName").RegisterCallback<ChangeEvent<string>>((changeEvent) => SaveBuildName());
+            
+            this.Q<Toggle>("UseVRCFury").style.display = CuteSetup.hasVRCFury ? this.Q<Toggle>("UseVRCFury").style.display : DisplayStyle.None;
 
             Validate();
         }

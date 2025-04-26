@@ -6,6 +6,6 @@
         <ui:Label text="Package and scripting created by" style="white-space: normal; margin-top: 25px; -unity-text-align: upper-center; -unity-font-style: italic;" />
         <ui:Label text="Krysiek" style="white-space: normal; margin-top: 10px; -unity-text-align: upper-center;" />
         <ui:Label text="with the help and contributions of" style="white-space: normal; margin-top: 10px; -unity-text-align: upper-center; -unity-font-style: italic;" />
-        <ui:Label text="Jack&apos;lul, Luc4r, Shingen, Spookiboy" style="white-space: normal; margin-top: 10px; -unity-text-align: upper-center;" />
+        <ui:Label text="Unifox, Jack&apos;lul, Luc4r, Shingen, Spookiboy" style="white-space: normal; margin-top: 10px; -unity-text-align: upper-center;" />
     </ui:VisualElement>
 </ui:UXML>

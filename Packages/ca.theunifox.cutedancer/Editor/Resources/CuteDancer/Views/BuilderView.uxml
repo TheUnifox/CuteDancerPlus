@@ -22,6 +22,7 @@
             <ui:TextField picking-mode="Ignore" label="Name" binding-path="buildName" name="BuildName" class="field-first" />
             <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" class="field" />
             <uie:IntegerField label="Parameter start value" binding-path="parameterStartValue" class="config-field field-last" />
+            <ui:Toggle label="Use VRCFury" binding-path="useVRCFury" name="UseVRCFury" />
         </ui:Foldout>
         <ui:Button text="Generate files" name="BuildBtn" class="big-button">
             <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/screwdriver-wrench-solid&apos;); width: 32px; height: 32px;">

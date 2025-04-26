@@ -17,5 +17,7 @@ namespace VRF
         public string parameterName;
 
         public int parameterStartValue;
+
+        public bool useVRCFury = CuteSetup.hasVRCFury;
     }
 }

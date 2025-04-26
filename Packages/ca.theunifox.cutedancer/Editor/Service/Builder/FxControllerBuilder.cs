@@ -13,11 +13,14 @@ namespace VRF
     public class FxControllerBuilder : BuilderInterface
     {
         private static Logger log = new Logger("FxControllerBuilder");
+        public string sourcePath = "";
+        public string outputPath = "";
+        public string sourceGUID = "";
 
         public void Build(SettingsBuilderData settings)
         {
-            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateFX.controller");
-            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-FX.controller");
+            sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateFX.controller");
+            outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-FX.controller");
 
             string animFxOffPath = Path.Combine(settings.outputDirectory, "FX", "CuteDancer-FX_OFF.anim");
 
@@ -27,6 +30,9 @@ namespace VRF
             }
 
             AnimatorController animator = AssetDatabase.LoadAssetAtPath<AnimatorController>(outputPath);
+            AnimatorController templateanimator = AssetDatabase.LoadAssetAtPath<AnimatorController>(sourcePath);
+
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(templateanimator.GetInstanceID(), out sourceGUID, out long _);
 
             animator.parameters = ParseTemplateParameters(settings, animator.parameters);
 
@@ -37,6 +43,8 @@ namespace VRF
 
             ChildAnimatorState templateState = Array.Find(rootStateMachine.states, state => state.state.name.Contains("{DANCE}"));
             AnimatorState beforeState = Array.Find(rootStateMachine.states, state => state.state.name == "Sending dance").state;
+            AnimatorState IdleState = Array.Find(rootStateMachine.states, state => state.state.name == "Idle").state;
+            AnimatorState EnableReceiversState = Array.Find(rootStateMachine.states, state => state.state.name == "Enable all receivers").state;
             AnimatorStateTransition templateInTransition = Array.Find(beforeState.transitions, t => t.destinationState == templateState.state);
 
             VRCAnimatorPlayAudio audioPlayerTemplate = (VRCAnimatorPlayAudio) templateState.state.behaviours[0];
@@ -128,6 +136,54 @@ namespace VRF
                 paramValue++;
             }
 
+            if (PrefabBuilder.multiReceiversCount > 1)
+            {
+                for (int i = 1; i < PrefabBuilder.multiReceiversCount; i++)
+                {
+                    foreach (var idleTransition in IdleState.transitions) 
+                    { 
+                        if (idleTransition.destinationState.name == beforeState.name)
+                        {
+                            idleTransition.AddCondition(
+                                AnimatorConditionMode.IfNot,
+                                0,
+                                "CuteDancerMultiReceiver_" + i
+                            );
+                        }
+                    }
+
+                    EnableReceiversState.transitions[0].AddCondition(
+                                AnimatorConditionMode.IfNot,
+                                0,
+                                "CuteDancerMultiReceiver_" + i
+                            );
+
+                    AnimatorStateTransition transitionfromsending = beforeState.AddTransition(IdleState);
+                    transitionfromsending.hasExitTime = false;
+                    transitionfromsending.exitTime = 0;
+                    transitionfromsending.hasFixedDuration = true;
+                    transitionfromsending.duration = 0;
+                    transitionfromsending.offset = 0;
+                    transitionfromsending.AddCondition(
+                                AnimatorConditionMode.If,
+                                1,
+                                "CuteDancerMultiReceiver_" + i
+                            );
+
+                    AnimatorStateTransition transitiontoenable = IdleState.AddTransition(EnableReceiversState);
+                    transitiontoenable.hasExitTime = false;
+                    transitiontoenable.exitTime = 0;
+                    transitiontoenable.hasFixedDuration = true;
+                    transitiontoenable.duration = 0;
+                    transitiontoenable.offset = 0;
+                    transitiontoenable.AddCondition(
+                                AnimatorConditionMode.If,
+                                1,
+                                "CuteDancerMultiReceiver_" + i
+                            );
+                }
+            }
+
             rootStateMachine.RemoveState(templateState.state);
             animator.layers = animatorLayers;
 
@@ -155,6 +211,19 @@ namespace VRF
             foreach (AnimatorControllerParameter param in animatorParameters)
             {
                 param.name = param.name.Replace("{PARAM}", settings.parameterName);
+            }
+
+            if (PrefabBuilder.multiReceiversCount > 1)
+            {
+                for (int i = 1; i < PrefabBuilder.multiReceiversCount; i++)
+                {
+                    animatorParameters.Add(new AnimatorControllerParameter()
+                    {
+                        name = "CuteDancerMultiReceiver_" + i,
+                        type = AnimatorControllerParameterType.Bool,
+                        defaultBool = false
+                    });
+                }
             }
 
             return animatorParameters.ToArray();

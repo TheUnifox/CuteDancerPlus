@@ -3,6 +3,10 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
+using ExpressionParameters = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionParameters;
+using ExpressionsMenu = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionsMenu;
+using UnityEditor.Animations;
 
 namespace VRF
 {
@@ -40,6 +44,8 @@ namespace VRF
             fxControllerBuilder.Build(settings);
             buildInfoBuilder.Build(settings);
 
+            FinalizeBuild(settings);
+
             AssetDatabase.Refresh();
 
             SettingsService.Instance.SaveFromSettingsBuilderData(settings);
@@ -68,6 +74,32 @@ namespace VRF
                 log.LogDebug("Restoring GUIDs of previous build.");
                 buildInfoBuilder.RestoreGuids(settings.outputDirectory, oldFileInfos);
             }
+        }
+
+        private void FinalizeBuild(SettingsBuilderData settings)
+        {
+            string prefabText = File.ReadAllText(contactsPrefabBuilder.outputPath);
+
+            ExpressionParameters expressionParameters = AssetDatabase.LoadAssetAtPath<ExpressionParameters>(parameterBuilder.outputPath);
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(expressionParameters.GetInstanceID(), out string outputParamsGUID, out long _);
+            ExpressionsMenu expressionsMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(menuBuilder.outputPath);
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(expressionsMenu.GetInstanceID(), out string outputMenuGUID, out long _);
+            AnimatorController actionAnimator = AssetDatabase.LoadAssetAtPath<AnimatorController>(actionControllerBuilder.outputPath);
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(actionAnimator.GetInstanceID(), out string outputActionGUID, out long _);
+            AnimatorController fxAnimator = AssetDatabase.LoadAssetAtPath<AnimatorController>(fxControllerBuilder.outputPath);
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(fxAnimator.GetInstanceID(), out string outputFXGUID, out long _);
+
+            prefabText = prefabText.Replace(parameterBuilder         .sourcePath.Replace('\\', '/'), parameterBuilder        .outputPath.Replace('\\', '/'));
+            prefabText = prefabText.Replace(menuBuilder              .sourcePath.Replace('\\', '/'), menuBuilder             .outputPath.Replace('\\', '/'));
+            prefabText = prefabText.Replace(actionControllerBuilder  .sourcePath.Replace('\\', '/'), actionControllerBuilder .outputPath.Replace('\\', '/'));
+            prefabText = prefabText.Replace(fxControllerBuilder      .sourcePath.Replace('\\', '/'), fxControllerBuilder     .outputPath.Replace('\\', '/'));
+            
+            prefabText = prefabText.Replace(parameterBuilder         .sourceGUID, outputParamsGUID);
+            prefabText = prefabText.Replace(menuBuilder              .sourceGUID, outputMenuGUID);
+            prefabText = prefabText.Replace(actionControllerBuilder  .sourceGUID, outputActionGUID);
+            prefabText = prefabText.Replace(fxControllerBuilder      .sourceGUID, outputFXGUID);
+
+            File.WriteAllText(contactsPrefabBuilder.outputPath, prefabText);
         }
     }
 }

@@ -10,11 +10,14 @@ namespace VRF
     public class ParameterBuilder : BuilderInterface
     {
         private static Logger log = new Logger("ParameterBuilder");
+        public string sourcePath = "";
+        public string outputPath = "";
+        public string sourceGUID = "";
 
         public void Build(SettingsBuilderData settings)
         {
-            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateVRCParams.asset");
-            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-VRCParams.asset");
+            sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateVRCParams.asset");
+            outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-VRCParams.asset");
 
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
             {
@@ -22,6 +25,9 @@ namespace VRF
             }
 
             ExpressionParameters expressionParameters = AssetDatabase.LoadAssetAtPath<ExpressionParameters>(outputPath);
+            ExpressionParameters templateParameters = AssetDatabase.LoadAssetAtPath<ExpressionParameters>(sourcePath);
+
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(templateParameters.GetInstanceID(), out sourceGUID, out long _);
 
             foreach (ExpressionParameters.Parameter parameter in expressionParameters.parameters)
             {

@@ -5,17 +5,21 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
 using System.Collections.Generic;
+using HarmonyLib;
 
 namespace VRF
 {
     public class ActionControllerBuilder : BuilderInterface
     {
         private static Logger log = new Logger("ActionControllerBuilder");
+        public string sourcePath = "";
+        public string outputPath = "";
+        public string sourceGUID = "";
 
         public void Build(SettingsBuilderData settings)
         {
-            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateAction.controller");
-            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-Action.controller");
+            sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateAction.controller");
+            outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-Action.controller");
 
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
             {
@@ -23,6 +27,9 @@ namespace VRF
             }
 
             AnimatorController animator = AssetDatabase.LoadAssetAtPath<AnimatorController>(outputPath);
+            AnimatorController templateanimator = AssetDatabase.LoadAssetAtPath<AnimatorController>(sourcePath);
+
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(templateanimator.GetInstanceID(), out sourceGUID, out long _);
 
             animator.parameters = ParseTemplateParameters(settings, animator.parameters);
 
@@ -34,6 +41,7 @@ namespace VRF
             ChildAnimatorState templateState = Array.Find(rootStateMachine.states, state => state.state.name == "{DANCE}");
             AnimatorState beforeDanceState = Array.Find(rootStateMachine.states, state => state.state.name == "Prepare animation").state;
             AnimatorState afterDanceState = Array.Find(rootStateMachine.states, state => state.state.name == "Stop").state;
+            AnimatorState WaitState = Array.Find(rootStateMachine.states, state => state.state.name == "Wait").state;
             AnimatorStateTransition[] templateInTransitions = beforeDanceState.transitions;
             AnimatorStateTransition[] templateOutTransitions = templateState.state.transitions;
 
@@ -116,6 +124,24 @@ namespace VRF
                 paramValue++;
             }
 
+            if (PrefabBuilder.multiReceiversCount > 1)
+            {
+                for (int i = 1; i < PrefabBuilder.multiReceiversCount; i++)
+                {
+                    AnimatorStateTransition transition = WaitState.AddTransition(beforeDanceState);
+                    transition.hasExitTime = false;
+                    transition.exitTime = 0;
+                    transition.hasFixedDuration = true;
+                    transition.duration = 0;
+                    transition.offset = 0;
+                    transition.AddCondition(
+                                AnimatorConditionMode.Equals,
+                                1,
+                                "CuteDancerMultiReceiver_" + i
+                            );
+                }
+            }
+
             rootStateMachine.RemoveState(templateState.state);
             animator.layers = animatorLayers;
 
@@ -186,6 +212,19 @@ namespace VRF
             foreach (AnimatorControllerParameter param in animatorParameters)
             {
                 param.name = param.name.Replace("{PARAM}", settings.parameterName);
+            }
+
+            if (PrefabBuilder.multiReceiversCount > 1) 
+            {
+                for (int i = 1; i < PrefabBuilder.multiReceiversCount; i++)
+                {
+                    animatorParameters.Add(new AnimatorControllerParameter()
+                    {
+                        name = "CuteDancerMultiReceiver_" + i,
+                        type = AnimatorControllerParameterType.Bool,
+                        defaultBool = false
+                    });
+                }
             }
 
             AnimatorControllerParameter templateDanceParam = animatorParameters.Find(param => param.name == "{DANCE}");

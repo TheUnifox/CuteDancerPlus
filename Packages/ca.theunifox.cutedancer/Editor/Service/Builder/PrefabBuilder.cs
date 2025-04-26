@@ -9,12 +9,16 @@ namespace VRF
 {
     public class PrefabBuilder : BuilderInterface
     {
+        public static int multiReceiversCount = 1;
         private static Logger log = new Logger("ContactsPrefabBuilder");
+        public string outputPath = "";
 
         public void Build(SettingsBuilderData settings)
         {
-            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplatePrefab.prefab");
-            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer.prefab");
+            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, settings.useVRCFury ? "TemplatePrefab.prefab" : "TemplatePrefabNoVRCFury.prefab");
+            outputPath = Path.Combine(settings.outputDirectory, "CuteDancer.prefab");
+
+            log.LogWarn(sourcePath);
 
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
             {
@@ -30,7 +34,7 @@ namespace VRF
 
             VRCContactReceiver multiReceiver = prefab.transform.Find("CuteDancerMultiReceiver").GetComponent<VRCContactReceiver>();
 
-            int multiReceiversCount = 1;
+            multiReceiversCount = 1;
 
             bool hasAudio = false;
 
@@ -40,7 +44,8 @@ namespace VRF
                 {
                     multiReceiver = UnityEngine.Object.Instantiate(multiReceiver, prefab.transform);
                     multiReceiver.collisionTags.Clear();
-                    multiReceiver.name = multiReceiver.name.Replace("{Clone}", "_" + multiReceiversCount);
+                    multiReceiver.name = multiReceiver.name.Replace("(Clone)", "_" + multiReceiversCount);
+                    multiReceiver.parameter = multiReceiver.name;
                     multiReceiversCount++;
                 }
 
@@ -63,7 +68,7 @@ namespace VRF
             if (!hasAudio) {
                 GameObject.DestroyImmediate(prefab.transform.Find("Music").gameObject);
             }
-
+            
             templateReceiver.parent = prefab.transform; // need this before nulling, otherwise object spawns in scene
             templateReceiver.parent = null;
             templateSender.parent = null;

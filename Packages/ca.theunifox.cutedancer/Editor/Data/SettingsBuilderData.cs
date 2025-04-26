@@ -11,6 +11,8 @@ namespace VRF
 
         public int parameterStartValue;
 
+        public bool useVRCFury = CuteSetup.hasVRCFury;
+
         public string outputDirectory;
 
         public static implicit operator SettingsBuilderData(BuilderViewData data)
@@ -20,7 +22,8 @@ namespace VRF
                 outputDirectory = Path.Combine(SettingsService.Instance.BuildDirectory, data.buildName),
                 parameterName = data.parameterName,
                 parameterStartValue = data.parameterStartValue,
-                dances = new List<DanceBuilderData>()
+                dances = new List<DanceBuilderData>(),
+                useVRCFury = data.useVRCFury
             };
 
             foreach (KeyValuePair<string, List<DanceViewData>> entry in data.dances)

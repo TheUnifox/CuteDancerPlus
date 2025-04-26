@@ -1,5 +1,5 @@
 {
-    "name": "pl.krysiek.cutedancer.Editor",
+    "name": "ca.theunifox.cutedancer.Editor",
     "references": [],
     "includePlatforms": [
         "Editor"

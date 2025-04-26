@@ -49,6 +49,7 @@ namespace VRF
         public string[] musicDisabledDances = Array.Empty<string>();
         public string parameterName = "VRCEmote";
         public int parameterStartValue = 128;
+        public bool useVRCFury = true;
         public string workingDirectory = "";
         public string buildName = "Default";
 
@@ -105,6 +106,7 @@ namespace VRF
             musicDisabledDances = builderData.dances.FindAll(dance => dance.audio == null).ConvertAll(dance => dance._name).ToArray();
             parameterName = builderData.parameterName;
             parameterStartValue = builderData.parameterStartValue;
+            useVRCFury = builderData.useVRCFury;
         }
 
         public void SaveFromSelectedDances(Dictionary<string, List<DanceViewData>> dances)

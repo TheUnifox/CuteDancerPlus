@@ -1,7 +1,7 @@
 # ✨🕺 CuteDancer v4.0 🕺✨
 
-### [Add to VRChat Creator Companion](https://krysiek.github.io/CuteDancer/)
-▶️ https://krysiek.github.io/CuteDancer/ ◀️
+### [Add to VRChat Creator Companion](https://theunifox.github.io/CuteDancer/)
+▶️ https://theunifox.github.io/CuteDancer/ ◀️
 
 ---
 
@@ -15,6 +15,13 @@ CuteDancer is a package dedicated to use on [VRChat](https://hello.vrchat.com/) 
 
 It uses [Contacts Components](https://creators.vrchat.com/avatars/avatar-dynamics/contacts/). When one avatar starts dancing, the sender component is activated and receivers on other avatars play that animation as well.
 
+### What's new in v4.1?
+
+- Now using VRCFury to add the dances to your avatar!
+- Support for more dances than the VRC Contact Receiver's Collison Tags limit
+- ~~Support for animations with an Intro and Loop section~~ TODO
+- ~~Putting CuteDancer in a submenu~~ TODO
+
 ### What's new in v4.0?
 
 - VRChat Creator Companion support
@@ -22,13 +29,25 @@ It uses [Contacts Components](https://creators.vrchat.com/avatars/avatar-dynamic
 - Support for adding custom animations
 - Other small improvements and fixes
 
+## Updating from old Krysiek v4.0 CuteDancer
+
+If you had CuteDancer before Using this updated version (v4.0 or earlier), you will need to uninstall and remove the old Krysiek v4.0 CuteDancer.
+
+Uninstall CuteDancer package by clicking `Manage Project` next to the desired avatar project, and then hit the red minus sign next to the CuteDancer package.
+
+Remove the listing by going to Settings -> Packages -> and scrolling down under Installed Repositories, then hit the minus sign next to the CuteDancer Listing entry.
+
+And finally follow the below Installation section.
+
 ## Installation
 
 You have to use [VRChat Creator Companion](https://vcc.docs.vrchat.com/) for your Unity VRChat project.
 
-Add the listing from https://krysiek.github.io/CuteDancer/
+Add the listing from https://theunifox.github.io/CuteDancer/
 
 Install CuteDancer package by clicking `Manage Project` next to the desired avatar project and then choose the newest version available next to the CuteDancer package.
+
+Install VRCFury by doing the same in the VCC.
 
 ## Basic usage
 
@@ -50,6 +69,7 @@ This tab allows you to prepare CuteDancer prefab with selected dances, include o
 - `Name` - you can create multiple builds by changing its name (e.g. one for PC and one for Quest version).
 - `Parameter name` - name of the parameter used for the dances. Change it if you have problem with non working animations, stuck (e.g. GoGo Loco).
 - `Parameter start value` - indicates the start
+- `Use VRCFury` - Whether to use a VRCFury prefab, or add directly to avatar files like pre v4.1. Will only show up if VRCFury is installed
 
 </details>
 
@@ -80,6 +100,7 @@ The template dance will be created in `Assets/CuteDancer/Dances/MySuperDance` di
 
 ## Contributors
 
-_Default animations, package: [Krysiek](https://github.com/Krysiek)  
+_VRCFury suport, more dances support, Intro animation support: [TheUnifox](https://github.com/TheUnifox)
+Default animations, package: [Krysiek](https://github.com/Krysiek)  
 Sender/Receiver config, support and tests: [Luc4r](https://github.com/Luc4r)  
 Animators optimization, tests: [Jack'lul](https://github.com/jacklul)_

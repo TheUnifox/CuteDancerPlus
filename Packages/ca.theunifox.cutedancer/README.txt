@@ -4,4 +4,4 @@ From Unity's top menu select "Tools" -> "CuteDancer Setup" and follow instructio
 
 For more information visit:
 
-https://github.com/Krysiek/CuteDancer
+https://github.com/TheUnifox/CuteDancerPlus

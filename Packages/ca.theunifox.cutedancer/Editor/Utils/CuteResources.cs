@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class CuteResources
 {
-    public static string CUTEDANCER_RUNTIME = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime");
+    public static string CUTEDANCER_RUNTIME = Path.Combine("Packages", "ca.theunifox.cutedancer", "Runtime");
 
     public static VisualTreeAsset LoadView(string name)
     {

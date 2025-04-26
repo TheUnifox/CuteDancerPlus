@@ -82,11 +82,11 @@ MonoBehaviour:
   height: 2
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 1}
+  localOnly: 0
   collisionTags:
   - '{DANCE}'
   allowSelf: 0
   allowOthers: 1
-  localOnly: 0
   receiverType: 0
   parameter: '{DANCE}'
   minVelocity: 0.05
@@ -140,10 +140,10 @@ MonoBehaviour:
   height: 2
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 1}
+  localOnly: 0
   collisionTags: []
   allowSelf: 0
   allowOthers: 1
-  localOnly: 0
   receiverType: 0
   parameter: CuteDancerMultiReceiver
   minVelocity: 0
@@ -188,6 +188,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5387585510783504090}
+  - component: {fileID: 6055868232383513298}
+  - component: {fileID: -7584108177543306423}
   m_Layer: 0
   m_Name: TemplatePrefab
   m_TagString: Untagged
@@ -214,6 +216,130 @@ Transform:
   - {fileID: 1356683522446424117}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6055868232383513298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5387585510783504091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e94e501a2d4c95bff3d5601013d923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 3
+  unityVersion: 2022.3.22f1
+  vrcfuryVersion: 1.1227.0
+  somethingIsBroken: 0
+  config:
+    features: []
+  content:
+    rid: 9021634232151179265
+  references:
+    version: 2
+    RefIds:
+    - rid: 9021634232151179265
+      type: {class: FullController, ns: VF.Model.Feature, asm: VRCFury}
+      data:
+        version: 4
+        controllers:
+        - controller:
+            version: 1
+            fileID: 0
+            guid: 
+            id: 8d7bc83f49ee95e4a8986c34bdfaee8b|Packages/ca.theunifox.cutedancer/Runtime/TemplateFX.controller
+            objRef: {fileID: 9100000, guid: 8d7bc83f49ee95e4a8986c34bdfaee8b, type: 2}
+          type: 5
+        - controller:
+            version: 1
+            fileID: 0
+            guid: 
+            id: 50e24daf5de34a246919fde1c6f5b98f|Packages/ca.theunifox.cutedancer/Runtime/TemplateAction.controller
+            objRef: {fileID: 9100000, guid: 50e24daf5de34a246919fde1c6f5b98f, type: 2}
+          type: 4
+        menus:
+        - menu:
+            version: 1
+            fileID: 0
+            guid: 
+            id: 7ef32d732881d7b42b2f50f4728ddf62|Packages/ca.theunifox.cutedancer/Runtime/TemplateVRCMenu.asset
+            objRef: {fileID: 11400000, guid: 7ef32d732881d7b42b2f50f4728ddf62, type: 2}
+          prefix: CuteDancer
+        prms:
+        - parameters:
+            version: 1
+            fileID: 0
+            guid: 
+            id: 9962c59a543b0a54488eb51dcfd83e31|Packages/ca.theunifox.cutedancer/Runtime/TemplateVRCParams.asset
+            objRef: {fileID: 11400000, guid: 9962c59a543b0a54488eb51dcfd83e31, type: 2}
+        smoothedPrms: []
+        globalParams: []
+        allNonsyncedAreGlobal: 0
+        ignoreSaved: 0
+        toggleParam: 
+        rootObjOverride: {fileID: 0}
+        rootBindingsApplyToAvatar: 0
+        rewriteBindings: []
+        allowMissingAssets: 0
+        injectSpsDepthParam: 
+        injectSpsVelocityParam: 
+        controller:
+          version: 1
+          fileID: 0
+          guid: 
+          id: 
+          objRef: {fileID: 0}
+        menu:
+          version: 1
+          fileID: 0
+          guid: 
+          id: 
+          objRef: {fileID: 0}
+        parameters:
+          version: 1
+          fileID: 0
+          guid: 
+          id: 
+          objRef: {fileID: 0}
+        submenu: 
+        removePrefixes: []
+        addPrefix: 
+        useSecurityForToggle: 0
+--- !u!114 &-7584108177543306423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5387585510783504091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e94e501a2d4c95bff3d5601013d923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 3
+  unityVersion: 2022.3.22f1
+  vrcfuryVersion: 1.1227.0
+  somethingIsBroken: 0
+  config:
+    features: []
+  content:
+    rid: 9021634232151179270
+  references:
+    version: 2
+    RefIds:
+    - rid: 9021634232151179270
+      type: {class: SetIcon, ns: VF.Model.Feature, asm: VRCFury}
+      data:
+        version: 1
+        path: CuteDancer
+        icon:
+          version: 1
+          fileID: 0
+          guid: 
+          id: 84c43437c8b558340a65a3f00a634656|Packages/ca.theunifox.cutedancer/Runtime/Icons/CuteDancer.png
+          objRef: {fileID: 2800000, guid: 84c43437c8b558340a65a3f00a634656, type: 3}
 --- !u!1 &5450435334409231036
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,5 +537,6 @@ MonoBehaviour:
   height: 2
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 1}
+  localOnly: 0
   collisionTags:
   - '{DANCE}'

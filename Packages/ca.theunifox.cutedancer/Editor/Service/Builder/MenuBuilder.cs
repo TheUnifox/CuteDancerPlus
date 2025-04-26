@@ -10,11 +10,14 @@ namespace VRF
     public class MenuBuilder : BuilderInterface
     {
         private static Logger log = new Logger("MenuBuilder");
+        public string sourcePath = "";
+        public string outputPath = "";
+        public string sourceGUID = "";
 
         public void Build(SettingsBuilderData settings)
         {
-            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateVRCMenu.asset");
-            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-VRCMenu.asset");
+            sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateVRCMenu.asset");
+            outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-VRCMenu.asset");
 
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
             {
@@ -22,6 +25,9 @@ namespace VRF
             }
 
             ExpressionsMenu expressionsMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(outputPath);
+            ExpressionsMenu templateMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(sourcePath);
+
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(templateMenu.GetInstanceID(), out sourceGUID, out long _);
 
             int paramValue = settings.parameterStartValue;
             int submenuCount = 1;
@@ -71,6 +77,8 @@ namespace VRF
             log.LogInfo("Save file [name = " + outputPath + "]");
             EditorUtility.SetDirty(expressionsMenu);
             AssetDatabase.SaveAssets();
+
+            outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-VRCMenu.asset");
         }
     }
 }

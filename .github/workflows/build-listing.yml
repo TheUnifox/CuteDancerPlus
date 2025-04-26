@@ -1,7 +1,7 @@
 name: Build Repo Listing
 
 env:
-  CurrentPackageName: pl.krysiek.cutedancer
+  CurrentPackageName: ca.theunifox.cutedancer
   listPublishDirectory: Website
   pathToCi: ci
   
